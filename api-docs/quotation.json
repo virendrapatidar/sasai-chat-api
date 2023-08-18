@@ -1,0 +1,418 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "x03w72tif47cx"
+  },
+  "info": {
+    "title": "Quote",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-za-mt.sasai.global"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Sasai remittance quotation API",
+      "description": "API to get quotations from Sasai."
+      }
+  ],
+  "paths": {
+    "/api/v3/{operation}": {
+      "post": {
+        "summary": "Create New quotes",
+        "operationId": "create-quotations",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "properties": {
+                            "receive": {
+                              "type": "boolean"
+                            },
+                            "amount_to_pay": {
+                              "type": "string"
+                            },
+                            "sending_amount": {
+                              "type": "string"
+                            },
+                            "recipient_amount": {
+                              "type": "string"
+                            },
+                            "rate": {
+                              "type": "string"
+                            },
+                            "reverse_rate": {
+                              "type": "string"
+                            },
+                            "fees": {
+                              "type": "string"
+                            },
+                            "vat": {
+                              "type": "string"
+                            },
+                            "sending_min_limit": {
+                              "type": "string"
+                            },
+                            "sending_max_limit": {
+                              "type": "string"
+                            },
+                            "receiving_min_limit": {
+                              "type": "string"
+                            },
+                            "receiving_max_limit": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "relationships": {
+                          "type": "object",
+                          "properties": {
+                            "product": {
+                              "type": "object",
+                              "properties": {
+                                "data": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "sending_country": {
+                              "type": "object",
+                              "properties": {
+                                "data": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "receiving_country": {
+                              "type": "object",
+                              "properties": {
+                                "data": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "sending_currency": {
+                              "type": "object",
+                              "properties": {
+                                "data": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "receiving_currency": {
+                              "type": "object",
+                              "properties": {
+                                "data": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string"
+                                    },
+                                    "id": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "data": {
+                        "type": "calculation_requests",
+                        "id": "a0da9fc71ecc7d595e1b140e13d7ad790bdaea6c",
+                        "attributes": {
+                          "receive": false,
+                          "amount_to_pay": "125.00",
+                          "sending_amount": "100.00",
+                          "recipient_amount": "743.00",
+                          "rate": "7.4300",
+                          "reverse_rate": "0.1346",
+                          "fees": "25.00",
+                          "vat": "3.26",
+                          "sending_min_limit": "30.00",
+                          "sending_max_limit": "5000.00",
+                          "receiving_min_limit": "222.90",
+                          "receiving_max_limit": "36924.00"
+                        },
+                        "relationships": {
+                          "product": {
+                            "data": {
+                              "type": "products",
+                              "id": "24"
+                            }
+                          },
+                          "sending_country": {
+                            "data": {
+                              "type": "countries",
+                              "id": "204"
+                            }
+                          },
+                          "receiving_country": {
+                            "data": {
+                              "type": "countries",
+                              "id": "246"
+                            }
+                          },
+                          "sending_currency": {
+                            "data": {
+                              "type": "currencies",
+                              "id": "181"
+                            }
+                          },
+                          "receiving_currency": {
+                            "data": {
+                              "type": "currencies",
+                              "id": "75"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing Required Information"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "receive": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "relationships": {
+                        "type": "object",
+                        "properties": {
+                          "receiving_country": {
+                            "type": "object",
+                            "properties": {
+                              "data": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "integer"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "sending_country": {
+                            "type": "object",
+                            "properties": {
+                              "data": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "integer"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "sending_currency": {
+                            "type": "object",
+                            "properties": {
+                              "data": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "integer"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "receiving_currency": {
+                            "type": "object",
+                            "properties": {
+                              "data": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "integer"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "product": {
+                            "type": "object",
+                            "properties": {
+                              "data": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "id": {
+                                    "type": "integer"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "x-examples": {
+                  "Example 1": {
+                    "data": {
+                      "type": "calculation_requests",
+                      "id": "null",
+                      "attributes": {
+                        "receive": "false",
+                        "amount": "100"
+                      },
+                      "relationships": {
+                        "receiving_country": {
+                          "data": {
+                            "type": "countries",
+                            "id": 246
+                          }
+                        },
+                        "sending_country": {
+                          "data": {
+                            "type": "countries",
+                            "id": 204
+                          }
+                        },
+                        "sending_currency": {
+                          "data": {
+                            "type": "currencies",
+                            "id": 181
+                          }
+                        },
+                        "receiving_currency": {
+                          "data": {
+                            "type": "currencies",
+                            "id": 75
+                          }
+                        },
+                        "product": {
+                          "data": {
+                            "type": "products",
+                            "id": 24
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Create quotations",
+        "x-stoplight": {
+          "id": "bm2nwo1j5ahjg"
+        }
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "operation",
+          "in": "path",
+          "required": true,
+          "description": "calculate to get quotations"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {}
+  },
+  "x-internal": false
+}

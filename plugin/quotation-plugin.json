@@ -1,0 +1,18 @@
+{
+    "schema_version": "v1",
+    "name_for_model": "SasaiQuotation",
+    "name_for_human": "Sasai Quotation",
+    "description_for_human": "Get the remittance quotation.",
+    "description_for_model": "Get the remittance quotations by calling the quotation API.",
+    "api": {
+    "type": "openapi",
+    "url": "https://raw.githubusercontent.com/virendrapatidar/sasai-chat-api/main/api-docs/quotation.json",
+    "has_user_authentication": false
+    },
+    "auth": {
+    "type": "none"
+    },
+    "logo_url": "https://moneytransfer.sasai.global/static/media/sasai-money-transfer-logo.fa774165.png",
+    "contact_email": "virendra@sasaifintech.com",
+    "legal_info_url": "https://moneytransfer.sasai.global/"
+    }
