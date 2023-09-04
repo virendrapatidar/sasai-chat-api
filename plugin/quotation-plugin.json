@@ -6,7 +6,7 @@
     "description_for_model": "Get the remittance quotations by calling the quotation API.",
     "api": {
     "type": "openapi",
-    "url": "https://raw.githubusercontent.com/virendrapatidar/sasai-chat-api/main/api-docs/quotation.json",
+    "url": "https://raw.githubusercontent.com/virendrapatidar/sasai-chat-api/main/api-docs/spg.json",
     "has_user_authentication": false
     },
     "auth": {

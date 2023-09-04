@@ -1,0 +1,1706 @@
+openapi: 3.0.1
+x-stoplight:
+  id: 5a81e06cb8009
+info:
+  title: Orders & Payments
+  version: '1.0'
+  description: 'Manage Order and Payment Transactions '
+  contact:
+    name: Kailash Saita
+    email: kailash.saita@nearex.com
+servers:
+  - url: 'https://sandbox.sasaipaymentgateway.com/pms'
+    description: Sandbox
+paths:
+  /v1/orders/request-pay:
+    post:
+      summary: Create Order - Request Payment
+      operationId: requestPayment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to create a request payment order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestForPayRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: e0k1nlswcvzvz
+    parameters: []
+  /v1/orders/fund-transfer:
+    post:
+      summary: Create Order - Fund Transfer
+      operationId: fundTransfer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to create a P2P fund transfer order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FundTransferRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: dddulzuv7kzni
+    parameters: []
+  /v1/orders/bill-payment:
+    post:
+      summary: Create Order - Bill Payment
+      operationId: post-v1-orders-billPayment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillPaymentResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillPaymentRequest'
+      description: API to create a bill payment order. This is meant for performing the pay in operation from the customer and also the bill provisioning to the biller.
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: r1t2z2sedfsvy
+    parameters: []
+  /v1/orders/payement/initiate:
+    post:
+      summary: Initiate Payment
+      operationId: post-v1-orders-payement-initiate
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTransferResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentTransferRequest'
+      description: Endpoint to initiate the payment for the order that is previously created. This is a common API for any type of orders that are created.
+      tags:
+        - Payments
+      x-stoplight:
+        id: bqokc3de0oflp
+  /v1/orders/payment/decline:
+    post:
+      summary: Decline Payment
+      operationId: post-v1-orders-decline
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to decline a payment. This is applicable only for selected order types.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeclinePaymentRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: n1rw1sacug7pb
+    parameters: []
+  /v1/orders/payment/cancel:
+    post:
+      summary: Cancel Payment
+      operationId: post-v1-orders-cancel
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to cancel a payment. This is allowed only by the creator of the order.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeclinePaymentRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: ln5l3ng3fkfpw
+    parameters: []
+  /v1/orders/merchant-payment:
+    post:
+      summary: Merchant Payment
+      operationId: merchantPayment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to initiate a merchant payment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MerchantPaymentRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: iml469lmw9so7
+    parameters: []
+  /v1/orders/payout:
+    post:
+      summary: Payout
+      operationId: post-v1-orders-payout
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to create order and initiate a payout transaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayoutRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: kzrs9e4i1km1l
+    parameters: []
+  /v1/orders/bill-provisioning:
+    post:
+      summary: Bill Provisioning
+      operationId: post-v1-orders-bill-provisioning
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to create order and initiate the bill provisioning
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillProvisioningRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: buvnzbf0us5m1
+    parameters: []
+  /v1/orders/refund:
+    post:
+      summary: Refund
+      operationId: post-v1-orders-refund
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTransferResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: ./Sasai-Commons.yaml#/components/schemas/SasaiErrorResponse
+      description: API to create order and initiate a refund for a payment previously done.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequest'
+      tags:
+        - Payments
+      parameters:
+        - $ref: '#/components/parameters/sasai-request-id'
+      x-stoplight:
+        id: rsnjz5hbonc5i
+    parameters: []
+  '/v1/orders/{orderId}':
+    parameters:
+      - schema:
+          type: string
+        name: orderId
+        in: path
+        required: true
+        description: 'Order Id '
+    get:
+      summary: Get Order Details
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+      operationId: getOrderDetails
+      description: API to retrieve the details of a specifc order based on the order Id
+      tags:
+        - Payments
+      x-stoplight:
+        id: xu17szbwq1sta
+  /v1/orders:
+    get:
+      summary: Get All Orders
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+      operationId: get-v1-orders
+      description: API to get all the orders based on the filters
+      parameters:
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/count'
+        - schema:
+            type: string
+            enum:
+              - type
+              - mid
+              - orderId
+              - status
+              - country
+              - currency
+              - createdDate
+              - modifiedDate
+          in: query
+          name: sortBy
+        - $ref: '#/components/parameters/sortType'
+        - schema:
+            type: number
+          in: query
+          name: startDate
+          description: Optional filter on the order creation date
+        - schema:
+            type: number
+          in: query
+          name: endDate
+          description: Optional filter on the order creation date
+        - schema:
+            type: string
+          in: query
+          name: merchantId
+        - schema:
+            type: string
+          in: query
+          name: requestId
+          description: Optional search filter based on the requestId sent in the order create payload
+        - schema:
+            type: string
+          in: query
+          name: type
+          description: Optional filter o nthe type of order
+        - schema:
+            type: string
+          in: query
+          name: status
+          description: Optional filter on the status of the order
+        - schema:
+            type: string
+          in: query
+          name: country
+          description: Optional filter on the country of the order payload
+        - schema:
+            type: string
+          in: query
+          name: currency
+          description: Optional filter on the currency of the order payload
+        - schema:
+            type: string
+          in: query
+          name: state
+          description: Optional filter on the country of the state of the order
+      x-stoplight:
+        id: ikg4n1oe49luc
+  /v1/orders/payments:
+    get:
+      summary: Get All Payments
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentListResponse'
+      operationId: get-v1-orders-payments
+      description: API to get all the payments based on the filters
+      parameters:
+        - $ref: '#/components/parameters/skip'
+        - $ref: '#/components/parameters/count'
+        - schema:
+            type: string
+            enum:
+              - type
+              - mid
+              - orderId
+              - status
+              - currency
+              - createdDate
+              - completedDate
+              - paymentId
+          in: query
+          name: sortBy
+        - $ref: '#/components/parameters/sortType'
+        - schema:
+            type: string
+          in: query
+          name: country
+        - schema:
+            type: string
+          in: query
+          name: currency
+        - schema:
+            type: number
+          in: query
+          name: startDate
+        - schema:
+            type: number
+          in: query
+          name: endDate
+        - schema:
+            type: string
+          in: query
+          name: type
+        - schema:
+            type: string
+          in: query
+          name: status
+        - schema:
+            type: string
+          in: query
+          name: paymentId
+        - schema:
+            type: string
+          in: query
+          name: mid
+      x-stoplight:
+        id: 8r7z2tqvhnpiy
+    parameters: []
+  /v1/payment-options:
+    get:
+      summary: Get Payment Options
+      tags:
+        - Payments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentOptionsResponse'
+      operationId: get-v1-payment-options
+      description: API to get all the payment options for the logged in merchant for the service type passed
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: serviceType
+          required: true
+          description: The service type for which the payment options are to be retrieved for. The service types can be customized in the merchant portal.
+        - schema:
+            type: string
+          in: query
+          name: customerId
+          description: Optional customer Id for which payment options are called. This is used to retrieve the saved instruments against the customer if present.
+        - schema:
+            type: string
+            minLength: 2
+            maxLength: 2
+          in: query
+          name: countryCode
+          required: true
+          description: The country code for which the payment options are requested for
+      x-stoplight:
+        id: um6pdq7cmf9zb
+    parameters: []
+components:
+  schemas:
+    SasaiError:
+      title: SasaiError
+      type: object
+      description: ''
+      properties:
+        code:
+          type: string
+          description: Additional error code
+        message:
+          type: string
+          description: Additional error message
+      x-stoplight:
+        id: e86a65929e70f
+    SasaiErrorResponse:
+      title: SasaiErrorResponse
+      x-stoplight:
+        id: 4a347cde7c929
+      type: object
+      properties:
+        errorUserMsg:
+          type: string
+          description: The resolved error message that can be shown to the end user.
+        errorCode:
+          type: string
+          description: The error code that was thrown
+        step:
+          type: string
+          description: The API path where this error occured
+        referenceId:
+          type: string
+        traceId:
+          type: string
+          description: A trace id that can be used for tracing the logs of this particular request
+        errors:
+          type: array
+          description: An array of additional error codes and message to give a more detailed picture of the error
+          items:
+            $ref: '#/components/schemas/SasaiError'
+      required:
+        - errorUserMsg
+        - errorCode
+        - step
+        - referenceId
+        - traceId
+    SasaiBaseResponse:
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the given entity.
+        createdBy:
+          type: string
+          description: The user who created this resource
+        createdAt:
+          type: number
+          format: date
+          description: The date that the resource was created. It will be in the Linux Epoch format.
+        modifiedBy:
+          type: string
+          description: The user who last modified this resource
+        modifiedAt:
+          type: number
+          description: The time that the resource was last modified. It will be in the Linux Epoch format.
+      required:
+        - id
+      type: object
+      title: SasaiBaseResponse
+      x-stoplight:
+        id: a80f1e4f6d6da
+    SasaiBaseListResponse:
+      title: SasaiBaseListResponse
+      x-stoplight:
+        id: 658df5690bcd5
+      type: object
+      properties:
+        skip:
+          type: integer
+          description: The page number
+          example: 1
+        count:
+          type: integer
+          description: Max number of records to retrieve
+          example: 5
+        totalCount:
+          type: integer
+          description: The total count of records available
+          example: 174
+        sortBy:
+          type: string
+          description: The data is sorted on this column
+          example: createdDate
+        sortType:
+          type: string
+          description: 'The srot type, ascending or descending'
+          example: asc
+    BaseOrderRequest:
+      type: object
+      x-examples:
+        example-1:
+          requestId: '1010101001'
+          mid: ABCD123456
+          feeAmount: 10
+          payerAmount: 110
+          currency: USD
+          notes:
+            key1: string
+            key2: string
+          beneficiaryDetails:
+            payeeAmount: 100
+            paymentMethod: bank
+            name: Vishnu
+            bankId: '10101'
+            accountNumber: A123467889999AB
+            branchCode: A123456
+      description: Create Order
+      x-stoplight:
+        id: 6929e3dad89a8
+      properties:
+        requestId:
+          type: string
+          minLength: 5
+          maxLength: 40
+          example: bb3e12b7-5215-4b0c-b104-5176278165de
+          description: A unique request Id for this transaction
+        mid:
+          type: string
+          minLength: 10
+          maxLength: 50
+          example: thf45-69swe-58aqw-6a5w9
+          description: The merchant id that is initiating the transaction
+        feeAmount:
+          type: number
+          description: The fee amount if applicable
+          minimum: 0
+          maximum: 99999
+        countryCode:
+          type: string
+          x-stoplight:
+            id: 2rzfwnwbes784
+          minLength: 2
+          maxLength: 2
+          example: ZA
+          description: A two character ISO country code
+        currency:
+          type: string
+          description: A three character ISO currency code
+          minLength: 3
+          maxLength: 3
+          example: ZAR
+        payerAmount:
+          type: number
+          description: The amount of the transaction
+          minimum: 1
+          maximum: 9999999
+        serviceType:
+          type: string
+          description: The service type to which the order belongs to.
+        expenseCategory:
+          type: string
+          x-stoplight:
+            id: th1ojuefunnwu
+          description: An optional expense category to categorise the transaction by. Can be used in search filters later.
+          maxLength: 100
+        notes:
+          type: object
+          description: 'This can be used to store any additional fields against the order, The same will be returned when the order is looked up. Note that no logical validation/processing will be done on this data except may for length validations'
+      required:
+        - requestId
+        - mid
+        - countryCode
+        - currency
+        - payerAmount
+    RequestForPayRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrderRequest'
+        - type: object
+          properties:
+            beneficiaryDetails:
+              $ref: '#/components/schemas/BeneficiaryInfo'
+            payerInfo:
+              $ref: '#/components/schemas/RequestForPayPayerInfo'
+          required:
+            - beneficiaryDetails
+      x-stoplight:
+        id: 0rf5b0p9f9uzb
+    RequestForPayPayerInfo:
+      type: object
+      x-stoplight:
+        id: uvff8vnxzuj0b
+      x-examples: {}
+      properties:
+        customerId:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        mobileNumber:
+          type: string
+      required:
+        - customerId
+    FundTransferRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrderRequest'
+        - type: object
+          properties:
+            beneficiaryDetails:
+              $ref: '#/components/schemas/BeneficiaryInfo'
+          required:
+            - beneficiaryDetails
+      x-stoplight:
+        id: nkqiqh5fvlc3e
+    PaymentLinkOrderRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrderRequest'
+      x-stoplight:
+        id: jpyxrxej5joex
+    MerchantPaymentRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrderRequest'
+        - type: object
+          properties:
+            callBackUrl:
+              type: string
+              minLength: 10
+              maxLength: 300
+              example: 'http://dev.payment.com/payment-response-handler'
+              description: The call back URL that will be used if there is a need of 2FA
+            isSave:
+              type: boolean
+              description: Boolean value indicating if the instrument need to be saved in the vault or not
+              example: true
+            payerDetails:
+              $ref: '#/components/schemas/PayerInfo'
+            deviceInfo:
+              $ref: '#/components/schemas/DeviceInfo'
+          required:
+            - callBackUrl
+            - isSave
+            - payerDetails
+      x-stoplight:
+        id: jz0giy15cr89r
+    PayoutRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrderRequest'
+        - type: object
+          properties:
+            beneficiaryDetails:
+              $ref: '#/components/schemas/BeneficiaryInfo'
+            deviceInfo:
+              $ref: '#/components/schemas/DeviceInfo'
+          required:
+            - beneficiaryDetails
+      x-stoplight:
+        id: ygkpfsb401f0j
+    BillProvisioningRequest:
+      allOf:
+        - $ref: '#/components/schemas/BaseOrderRequest'
+        - type: object
+          properties:
+            billerDetails:
+              $ref: '#/components/schemas/BillerDetails'
+            deviceInfo:
+              $ref: '#/components/schemas/DeviceInfo'
+          required:
+            - billerDetails
+      x-stoplight:
+        id: ra1u3pldc4h7e
+    RefundRequest:
+      type: object
+      x-examples: {}
+      x-tags:
+        - PaymentService
+      title: RefundRequest
+      properties:
+        requestId:
+          type: string
+          minLength: 5
+          maxLength: 40
+          example: bb3e12b7-5215-4b0c-b104-5176278165de
+          description: A unique request Id for this transaction
+        mid:
+          type: string
+          minLength: 10
+          maxLength: 50
+          example: thf45-69swe-58aqw-6a5w9
+          description: The merchant id that is initiating the transaction
+        paymentOrderId:
+          type: string
+          description: The order Id of the merchant payment for which the refund needs to be done.
+        deviceInfo:
+          $ref: '#/components/schemas/DeviceInfo'
+        notes:
+          type: object
+      required:
+        - requestId
+        - mid
+        - paymentOrderId
+      x-stoplight:
+        id: rn7owwmin4i7j
+    DeclinePaymentRequest:
+      type: object
+      x-stoplight:
+        id: 1klk1s5blenkt
+      x-examples: {}
+      x-tags:
+        - PaymentService
+      title: DeclinePaymentRequest
+      properties:
+        requestId:
+          type: string
+          minLength: 5
+          maxLength: 40
+          example: bb3e12b7-5215-4b0c-b104-5176278165de
+          description: A unique request Id for this transaction
+        mid:
+          type: string
+          minLength: 10
+          maxLength: 50
+          example: thf45-69swe-58aqw-6a5w9
+          description: The merchant id that is initiating the transaction
+        customerId:
+          type: string
+          x-stoplight:
+            id: lyvrjbuplbrcy
+        paymentOrderId:
+          type: string
+          description: The order Id of the merchant payment for which the refund needs to be done.
+        deviceInfo:
+          $ref: '#/components/schemas/DeviceInfo'
+        notes:
+          type: object
+      required:
+        - requestId
+        - mid
+        - customerId
+        - paymentOrderId
+    FundTransferResponse:
+      type: object
+      x-examples:
+        example-1:
+          requestId: '1010101001'
+          mid: ABCD123456
+          orderId: od.1234567890
+          status: created
+      properties:
+        requestId:
+          type: string
+        mid:
+          type: string
+        orderId:
+          type: string
+          description: The order id of the newly created order.
+        status:
+          type: string
+          description: The current status of the order.
+        expiryAt:
+          type: number
+          x-stoplight:
+            id: gmunrp0t5k3ld
+          description: The order expiry date and time if applicable in the linux epoch format.
+      x-stoplight:
+        id: c4lfvn9fzw4ht
+    OrderListResponse:
+      allOf:
+        - $ref: '#/components/schemas/SasaiBaseListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/OrderResponse'
+      x-stoplight:
+        id: vvq1xfjozxrbw
+    OrderResponse:
+      x-examples:
+        example-1:
+          orderId: ''
+          requestId: '1010101001'
+          mid: ''
+          type: ''
+          status: ''
+          state: ''
+          currency: INR
+          payerAmount: 110
+          feeAmount: 10
+          country: ''
+          createdDate: ''
+          updateDate: ''
+          beneficiaryDetails:
+            payeeAmount: 100
+            paymentMethod: bank
+            name: Vishnu
+            bankId: '10101'
+            accountNumber: A123467889999AB
+            branchCode: A123456
+          payerInfo:
+            paymentMethod: bank
+            token: string
+            instrumentId: string
+            cutomerId: string
+            email: sampleuser@example.com
+            name: Sample User
+            reference: TestPayer
+            mobileNumber: '27821234567'
+          notes:
+            key1: string
+            key2: string
+      allOf:
+        - $ref: '#/components/schemas/BaseOrderRequest'
+        - $ref: '#/components/schemas/SasaiBaseResponse'
+        - type: object
+          properties:
+            orderId:
+              type: string
+            type:
+              type: string
+            status:
+              type: string
+            state:
+              type: string
+            country:
+              type: string
+            beneficiaryDetails:
+              $ref: '#/components/schemas/BeneficiaryInfo'
+            payerInfo:
+              $ref: '#/components/schemas/PayerInfo'
+            paymentDetails:
+              type: array
+              items:
+                $ref: '#/components/schemas/PaymentResponse'
+            billerDetails:
+              $ref: '#/components/schemas/BillerDetails'
+            callBackUrl:
+              type: string
+            expiryAt:
+              type: number
+              x-stoplight:
+                id: t0sripse7qtof
+              description: The order expiry date and time in linux epoch format of when the order will expire. This will be applicable for specific order types only.
+      x-stoplight:
+        id: 5obouqgkx4dx0
+    PaymentListResponse:
+      allOf:
+        - $ref: '#/components/schemas/SasaiBaseListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/PaymentResponse'
+      x-stoplight:
+        id: 3u745ke1cyynw
+    PaymentResponse:
+      type: object
+      x-examples:
+        example-1:
+          orderId: ''
+          requestId: '1010101001'
+          mid: ''
+          type: ''
+          status: ''
+          state: ''
+          currency: INR
+          payerAmount: 110
+          feeAmount: 10
+          country: ''
+          createdDate: ''
+          updateDate: ''
+          beneficiaryDetails:
+            payeeAmount: 100
+            paymentMethod: bank
+            name: Vishnu
+            bankId: '10101'
+            accountNumber: A123467889999AB
+            branchCode: A123456
+          payerInfo:
+            paymentMethod: bank
+            token: string
+            instrumentId: string
+            cutomerId: string
+            email: sampleuser@example.com
+            name: Sample User
+            reference: TestPayer
+            mobileNumber: '27821234567'
+          notes:
+            key1: string
+            key2: string
+      title: PaymentResponse
+      properties:
+        Id:
+          type: string
+        orderId:
+          type: string
+          description: The order id to which this payment gelongs to
+        mid:
+          type: string
+        paymentId:
+          type: string
+          description: The payment's unique id
+        type:
+          type: string
+          description: The type of payment.
+        status:
+          type: string
+          description: The sta
+        createdDate:
+          type: number
+          description: The time when the payment process was initiated. It is in the Linux epoch format.
+        completedDate:
+          type: number
+          description: The time when the payment process was completed. It is in the Linux epoch format.
+        originalPaymentId:
+          type: string
+          description: This is the Id that was generated by the SIG (hub) and sent while calling the downstream system.
+        debit:
+          type: number
+        credit:
+          type: number
+        amount:
+          type: number
+        fee:
+          type: number
+        tax:
+          type: number
+        currency:
+          type: string
+        downstreamReferenceId:
+          type: string
+          description: This is the reference Id from the downstream system
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+        traceId:
+          type: string
+        redirectUrl:
+          type: string
+        additionalData:
+          type: object
+        downstreamDetails:
+          $ref: '#/components/schemas/IntegratorResponseDownstreamDetails'
+      x-stoplight:
+        id: mfvjpgwqjqy0o
+    IntegratorResponseDownstreamDetails:
+      type: object
+      x-examples:
+        example-1:
+          orderId: ''
+          requestId: '1010101001'
+          mid: ''
+          type: ''
+          status: ''
+          state: ''
+          currency: INR
+          payerAmount: 110
+          feeAmount: 10
+          country: ''
+          createdDate: ''
+          updateDate: ''
+          beneficiaryDetails:
+            payeeAmount: 100
+            paymentMethod: bank
+            name: Vishnu
+            bankId: '10101'
+            accountNumber: A123467889999AB
+            branchCode: A123456
+          payerInfo:
+            paymentMethod: bank
+            token: string
+            instrumentId: string
+            cutomerId: string
+            email: sampleuser@example.com
+            name: Sample User
+            reference: TestPayer
+            mobileNumber: '27821234567'
+          notes:
+            key1: string
+            key2: string
+      title: IntegratorResponseDownstreamDetails
+      properties:
+        hubId:
+          type: string
+        referenceId:
+          type: string
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+      x-stoplight:
+        id: g73igwywjj5l3
+    BeneficiaryInfo:
+      type: object
+      x-examples:
+        example-1:
+          payeeAmount: 100
+          paymentMethod: bank
+          name: Vishnu
+          bankId: '10101'
+          accountNumber: A123467889999AB
+          branchCode: A123456
+      properties:
+        payeeAmount:
+          type: number
+          description: The amount that is to be credited to the account
+          minimum: 1
+          maximum: 9999999
+        paymentMethod:
+          type: string
+          description: What is the method of payment
+          example: bank
+          enum:
+            - bank
+            - card
+            - wallet
+        name:
+          type: string
+          description: Name of the beneficiary
+          minLength: 5
+          maxLength: 50
+        provider:
+          type: string
+          description: The provider of the account where the money is to be transfered
+          example: NEDBANK
+          x-stoplight:
+            id: 65qpan2t133hg
+        branchCode:
+          type: string
+          description: Required when the payment mode is `bank`
+        accountNumber:
+          type: string
+          description: The account number of the beneficiary
+          minLength: 1
+          maxLength: 20
+        accountType:
+          type: string
+        customerId:
+          type: string
+          x-stoplight:
+            id: 63vgr361ccoib
+      required:
+        - payeeAmount
+        - paymentMethod
+        - provider
+        - accountNumber
+      x-stoplight:
+        id: 28tjuej812ggb
+    PayerInfo:
+      type: object
+      x-examples:
+        example-1:
+          paymentMethod: bank
+          token: string
+          instrumentId: string
+          cutomerId: string
+          email: sampleuser@example.com
+          name: Sample User
+          reference: TestPayer
+          mobileNumber: '27821234567'
+      properties:
+        paymentMethod:
+          type: string
+          enum:
+            - bank
+            - card
+            - wallet
+          example: card
+        instrumentToken:
+          type: string
+        customerId:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        reference:
+          type: string
+        mobileNumber:
+          type: string
+        networkType:
+          type: string
+          description: Mandatory only when paymentMode is `card`
+          enum:
+            - visa
+            - mastercard
+            - amex
+            - discover
+        cardBin:
+          type: integer
+          description: Mandatory only when paymentMode is `card`
+        provider:
+          type: string
+          x-stoplight:
+            id: qxouzd3l32lmn
+        pin:
+          type: string
+          x-stoplight:
+            id: 9r80p0s57o0fl
+          description: Required when the payment mode is `wallet`. This needs to be encrypted using the public key which can be generated using the merchant portal
+        publicKeyAlias:
+          type: string
+          x-stoplight:
+            id: ct4nn592qhlq8
+          description: 'The public key alias that was used to encrypt the PIN, Required only when the PIN is sent'
+      required:
+        - paymentMethod
+        - instrumentToken
+        - customerId
+        - provider
+      x-stoplight:
+        id: 1o4qntbv3i9ox
+    BillPaymentRequest:
+      title: BillPaymentRequest
+      x-stoplight:
+        id: b27jg64e7hcer
+      type: object
+      properties:
+        requestId:
+          type: string
+          minLength: 5
+          maxLength: 40
+          example: bb3e12b7-5215-4b0c-b104-5176278165de
+        mid:
+          type: string
+          description: The merchant id that is initiating the transaction
+          example: thf45-69swe-58aqw-6a5w9
+          minLength: 10
+          maxLength: 50
+        feeAmount:
+          type: number
+          description: The fee amount if applicable
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: ZAR
+          description: A three character ISO currency code
+        expenseCategory:
+          type: string
+          x-stoplight:
+            id: ot98slv8lnqel
+          description: An optional expense category to categorise the transaction by. Can be used in search filters later.
+          maxLength: 100
+        billerDetails:
+          $ref: '#/components/schemas/BillerDetails'
+        notes:
+          type: object
+          description: 'This can be used to store any additional fields against the order, The same will be returned when the order is looked up. Note that no logical validation/processing will be done on this data except may for length validations'
+      required:
+        - requestId
+        - mid
+        - billerDetails
+    BillerDetails:
+      title: BillerDetails
+      x-stoplight:
+        id: b27jg64e7hcer
+      type: object
+      properties:
+        operatorId:
+          type: string
+          description: The operator id from the catalog service
+          minLength: 1
+          maxLength: 40
+        categoryId:
+          type: string
+          description: The category id from the catalog service
+        amount:
+          type: number
+          minimum: 1
+          maximum: 9999
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: ZAR
+          description: A three character ISO currency code
+        planId:
+          type: string
+          description: An optional plan id from the catalog service
+          minLength: 1
+          maxLength: 30
+        countryCode:
+          type: string
+          minLength: 2
+          maxLength: 2
+          example: ZA
+          description: A two character ISO country code
+        operationBillFetchReference:
+          type: string
+          description: 'This is required only when bill payment is called after a bill lookup, The lookup reference number needs to be passed here.'
+        integratorTxnId:
+          type: string
+          x-stoplight:
+            id: a0ka5bvrphnvp
+          description: The transaction id that was returned during the plan look up or bill look up call. This is required only if either the plan lookup or the bill look up was done before creating the order.
+        Q1:
+          type: string
+          description: The value for the question one answered by the user
+          minLength: 1
+          maxLength: 50
+        Q2:
+          type: string
+          description: The value for the question two answered by the user
+          minLength: 1
+          maxLength: 50
+        Q3:
+          type: string
+          description: The value for the question three answered by the user
+          minLength: 1
+          maxLength: 50
+        Q4:
+          type: string
+          description: The value for the question four answered by the user
+          minLength: 1
+          maxLength: 50
+        Q5:
+          type: string
+          description: The value for the question five answered by the user
+          minLength: 1
+          maxLength: 50
+      required:
+        - operatorId
+        - categoryId
+        - amount
+        - currency
+    BillPaymentResponse:
+      title: BillPaymentResponse
+      x-stoplight:
+        id: 6qlc7v9e5jaeg
+      type: object
+      properties:
+        requestId:
+          type: string
+        mid:
+          type: string
+        orderId:
+          type: string
+        status:
+          type: string
+    PaymentTransferRequest:
+      title: PaymentTransferRequest
+      x-stoplight:
+        id: wj7epj1s8mvzd
+      type: object
+      properties:
+        requestId:
+          type: string
+          description: |
+            A unique request Id for this transaction
+          minLength: 5
+          maxLength: 40
+          example: bb3e12b7-5215-4b0c-b104-5176278165de
+        mid:
+          type: string
+          description: The merchant id that is initiating the transaction
+          minLength: 10
+          maxLength: 50
+        callBackUrl:
+          type: string
+          description: The call back URL that will be used if there is a need of 2FA
+          minLength: 10
+          maxLength: 300
+        feeAmount:
+          type: number
+          example: 10
+        payerAmount:
+          type: number
+          example: 23
+        orderId:
+          type: string
+        isSave:
+          type: boolean
+          description: Boolean value indicating if the instrument need to be saved in the vault or not
+        payerDetails:
+          $ref: '#/components/schemas/PayerInfo'
+        deviceInfo:
+          $ref: '#/components/schemas/DeviceInfo'
+      required:
+        - requestId
+        - mid
+        - callBackUrl
+        - orderId
+        - isSave
+    PaymentTransferResponse:
+      title: PaymentTransferResponse
+      x-stoplight:
+        id: 139um594bxj05
+      type: object
+      properties:
+        requestId:
+          type: string
+        mid:
+          type: string
+        orderId:
+          type: string
+        status:
+          type: string
+        state:
+          type: string
+        flowCompleted:
+          type: boolean
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+        redirectUrl:
+          type: string
+          description: The redirect URL to which the uer need to be redirected if the errorCode is of the value `pay.in.user.interaction.req`
+    PaymentOptionsResponse:
+      title: PaymentOptionsResponse
+      x-stoplight:
+        id: ceueqddrz9zax
+      type: object
+      properties:
+        paymentOptions:
+          type: array
+          description: The list of payment options and the providers under them
+          items:
+            $ref: '#/components/schemas/PaymentOptions'
+        savedInstruments:
+          type: array
+          description: 'The list of saved instruments for the passed customerId, Will be present only if customerId was passed in the request'
+          items:
+            $ref: '#/components/schemas/PaymentOptionsSavedInstruments'
+      required:
+        - paymentOptions
+    PaymentOptions:
+      title: PaymentOptions
+      x-stoplight:
+        id: ceueqddrz9zax
+      type: object
+      properties:
+        code:
+          type: string
+          description: The payment mode code
+        value:
+          type: string
+          description: The payment Mode for displaying in the UI
+        providers:
+          type: array
+          x-stoplight:
+            id: kjhgj9lgag3nm
+          items:
+            $ref: '#/components/schemas/PaymentProvidersDetails'
+    PaymentProvidersDetails:
+      title: PaymentProvidersDetails
+      x-stoplight:
+        id: uojc8cjn66bb0
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the provider
+          x-stoplight:
+            id: fnk59lhvsngmp
+        code:
+          type: string
+          description: The code of the provider
+          x-stoplight:
+            id: n9l6b3jc42aox
+        iconUrl:
+          type: string
+          x-stoplight:
+            id: kjhgj9lgag3nm
+          description: The icon image URL of the provider if available.
+        description:
+          type: string
+          x-stoplight:
+            id: eec8jobefbgui
+          description: A short description of the provider if available.
+      required:
+        - name
+        - code
+    DeviceInfo:
+      title: DeviceInfo
+      x-stoplight:
+        id: ceueqddrz9zax
+      type: object
+      properties:
+        ip:
+          type: string
+        model:
+          type: string
+        userAgent:
+          type: string
+        network:
+          type: string
+        latitude:
+          type: string
+        longitude:
+          type: string
+        os:
+          type: string
+        osVersion:
+          type: string
+        appVersion:
+          type: string
+        deviceId:
+          type: string
+          x-stoplight:
+            id: ovm3mzw3u1s70
+        simNumber:
+          type: string
+          x-stoplight:
+            id: i3hj8vw8lyiys
+    PaymentOptionsSavedInstruments:
+      allOf:
+        - $ref: '#/components/schemas/PaymentOptions'
+        - type: object
+          properties:
+            instrumentId:
+              type: string
+            maskedNumber:
+              type: string
+            nickName:
+              type: string
+            instrumentToken:
+              type: string
+              description: The one time use instrument token
+            networkType:
+              type: string
+              description: Available only for card instruments
+            cardBin:
+              type: string
+              description: Available only for card instruments
+            'currency ':
+              type: array
+              x-stoplight:
+                id: artvg7laee9z4
+              description: The list of currencies supported by this instrument
+              items:
+                x-stoplight:
+                  id: 6irbfoqu4ksa0
+                type: string
+      x-stoplight:
+        id: af3lzj3qrkjt7
+    DashboardSummaryData:
+      title: DashboardSummaryData
+      type: object
+      x-stoplight:
+        id: 3b2a802c8a6c4
+      properties:
+        label:
+          type: string
+          description: 'Based on the group by, this will hold the specific labels to be displayed, if groupBy is `service-type` the it will have the various service types, if the groupBy is `payment-mode` Then it will have the various payment modes.'
+        value:
+          type: number
+          description: The actual value as a number
+    DashboardSummary:
+      title: DashboardSummary
+      x-stoplight:
+        id: 8e1e73b0681ae
+      type: object
+      properties:
+        groupBy:
+          type: string
+        rangeType:
+          type: string
+        startDate:
+          type: number
+        endDate:
+          type: number
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardSummaryData'
+    DashboardDetail:
+      title: DashboardDetail
+      type: object
+      x-stoplight:
+        id: 14a8274bbf15f
+      properties:
+        integratorId:
+          type: string
+        rangeType:
+          type: string
+        startDate:
+          type: number
+        endDate:
+          type: number
+        valueType:
+          type: string
+        xAxisLabel:
+          type: string
+          description: The description for the kind of label data sent back
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardDetailData'
+    DashboardDetailData:
+      title: DashboardSummaryData
+      type: object
+      x-stoplight:
+        id: 37d8c2c925efb
+      properties:
+        label:
+          type: string
+          description: 'Depending on the date range type, this will hold the label to be displayed'
+        value:
+          type: number
+          description: The actual value
+    DashboardRangeTypeEnum:
+      title: DashboardRangeTypeEnum
+      x-stoplight:
+        id: x3xvk6g15w31x
+      type: string
+      enum:
+        - today
+        - yesterday
+        - week
+        - month
+        - year
+        - custom
+      description: The type of date range for which the data is to be retrieved
+    ValueTypeEnum:
+      title: ValueTypeEnum
+      type: string
+      description: The type of value summary that need to be retrieved
+      x-stoplight:
+        id: 4188abc3c50c7
+      enum:
+        - amount
+        - number
+  securitySchemes:
+    Oauth2 Client Credentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://sandbox-auth.sasaipaymentgateway.com/realms/sasai/protocol/openid-connect/token'
+          refreshUrl: ''
+          scopes: {}
+  parameters:
+    rangeType:
+      name: rangeType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+          - today
+          - yesterday
+          - week
+          - month
+          - year
+          - custom
+      description: The date range type based on which the data will be retrieved
+    valueType:
+      name: valueType
+      in: query
+      required: true
+      schema:
+        type: string
+        enum:
+          - amount
+          - number
+      description: The type of value summary that need to be retrieved
+    sortType:
+      name: sortType
+      in: query
+      schema:
+        type: string
+        enum:
+          - asc
+          - desc
+        minLength: 3
+        maxLength: 4
+        example: asc
+        pattern: (^asc$|^desc$)
+      description: 'The type of sorting to be applied, if not passed there will be a default sort type applied and its value will be returned in the response.'
+    skip:
+      name: skip
+      in: query
+      required: true
+      schema:
+        type: integer
+        multipleOf: 1
+        minimum: 0
+      description: 'The number of records to be skipped. The default value is 0. This can be used for pagination, in combination with count.'
+    count:
+      name: count
+      in: query
+      required: true
+      schema:
+        type: integer
+        minimum: 5
+        maximum: 1000
+        multipleOf: 5
+        example: 10
+      description: 'The number of records to be fetched. The default value is 10. The maximum value is 100. This can be used for pagination, in combination with skip.'
+    sasai-request-id:
+      name: sasai-request-id
+      in: header
+      required: true
+      schema:
+        type: string
+        minLength: 3
+        maxLength: 50
+      description: 'A unique request id for each transaction created. This will be used for idempotency checking. To understand more about idempotency, check the idempotency page in the documentation.'
+tags:
+  - name: Payments
+  - name: Administration
+security:
+  - Oauth2 Client Credentials: []
